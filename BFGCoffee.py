@@ -28,8 +28,10 @@ def asciiDoom():
 		""")
 
 class CoffeeShop:
+	#def __init__(self) -> None:
+	#	pass
 	#CoffeeShop Crud
-	def AddCoffeeshop(name,location,number,website):
+	def AddCoffeeshop(self,name,location,number,website):
 		conn = http.client.HTTPSConnection("localhost", 44378,context = ssl._create_unverified_context())
 		payload = 'ShopName='+name+'&Location='+location+'&PhoneNumber='+number+'&Website='+website
 		headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
@@ -38,7 +40,7 @@ class CoffeeShop:
 		data = res.read()
 		print(data.decode("utf-8"))
 
-	def getCoffeeshops():
+	def getCoffeeshops(self):
 		conn = http.client.HTTPSConnection("localhost", 44378, context = ssl._create_unverified_context())
 		payload = ''
 		headers = {}
@@ -47,36 +49,36 @@ class CoffeeShop:
 		data = res.read()
 		return data.decode("utf-8")
 
-	def getCoffeeShop(id):
+	def getCoffeeShop(self,id):
 		conn = http.client.HTTPSConnection("localhost", 44378, context = ssl._create_unverified_context())
 		payload = ''
 		headers = {}
-		conn.request("GET","/api/CoffeeShop/"+id, payload, headers)
+		conn.request("GET","/api/CoffeeShop/"+str(id), payload, headers)
 		res = conn.getresponse()
 		data = res.read()
 		return data.decode("utf-8")
 
-	def UpdateCoffeeshop(id,name,location,number,website):
+	def UpdateCoffeeshop(self,Shopid,name,location,number,website):
 		conn = http.client.HTTPSConnection("localhost", 44378,context = ssl._create_unverified_context())
-		payload = 'CoffeeShopId='+id+'&ShopName='+name+'&Location='+location+'&PhoneNumber='+number+'&Website='+website
+		payload = 'CoffeeShopId='+Shopid+'&ShopName='+name+'&Location='+location+'&PhoneNumber='+number+'&Website='+website
 		headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
 		conn.request("PUT", "/api/CoffeeShop", payload, headers)
 		res = conn.getresponse()
 		data = res.read()
 		print(data.decode("utf-8"))
 
-	def RemoveCoffeeShop(id):
+	def RemoveCoffeeShop(self,id):
 		conn = http.client.HTTPSConnection("localhost", 44378, context = ssl._create_unverified_context())
 		payload = ''
 		headers = {}
-		conn.request("DELETE","/api/CoffeeShop/"+id, payload, headers)
+		conn.request("DELETE","/api/CoffeeShop/"+str(id), payload, headers)
 		res = conn.getresponse()
 		data = res.read()
 		return data.decode("utf-8")
 
 class CoffeeOrder:
 	#CoffeeOrder Crud
-	def AddCoffeeOrder(country,barista,shopid):
+	def AddCoffeeOrder(self,country,barista,shopid):
 		conn = http.client.HTTPSConnection("localhost", 44378,context = ssl._create_unverified_context())
 		payload = 'Country='+country+'&Barista='+barista+'&CoffeeShopId='+shopid
 		headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
@@ -85,7 +87,7 @@ class CoffeeOrder:
 		data = res.read()
 		print(data.decode("utf-8"))
 
-	def getCoffeeOrders():
+	def getCoffeeOrders(self):
 		conn = http.client.HTTPSConnection("localhost", 44378, context = ssl._create_unverified_context())
 		payload = ''
 		headers = {}
@@ -94,7 +96,7 @@ class CoffeeOrder:
 		data = res.read()
 		return data.decode("utf-8")
 
-	def getCoffeeOrder(id):
+	def getCoffeeOrder(self,id):
 		conn = http.client.HTTPSConnection("localhost", 44378, context = ssl._create_unverified_context())
 		payload = ''
 		headers = {}
@@ -103,27 +105,27 @@ class CoffeeOrder:
 		data = res.read()
 		return data.decode("utf-8")
 
-	def UpdateCoffeeOrder(id,country,barista,shopid):
+	def UpdateCoffeeOrder(self,Orderid,country,barista):
 		conn = http.client.HTTPSConnection("localhost", 44378,context = ssl._create_unverified_context())
-		payload = 'CoffeeOrderId='+id+'&Country='+country+'&Barista='+barista+'&CoffeeShopId='+shopid
+		payload = 'CoffeeOrderId='+Orderid+'&Country='+country+'&Barista='+barista
 		headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
 		conn.request("PUT", "/api/CoffeeOrder", payload, headers)
 		res = conn.getresponse()
 		data = res.read()
 		print(data.decode("utf-8"))
 
-	def RemoveCoffeeOrder(id):
+	def RemoveCoffeeOrder(self,id):
 		conn = http.client.HTTPSConnection("localhost", 44378, context = ssl._create_unverified_context())
 		payload = ''
 		headers = {}
-		conn.request("DELETE","/api/CoffeeOrder/"+id, payload, headers)
+		conn.request("DELETE","/api/CoffeeOrder/"+str(id), payload, headers)
 		res = conn.getresponse()
 		data = res.read()
 		return data.decode("utf-8")
 
 class MenuItem:
 	#Menu Crud
-	def AddMenuItem(itemName,itemPrice,orderId):
+	def AddMenuItem(self,itemName,itemPrice,orderId):
 		conn = http.client.HTTPSConnection("localhost", 44378,context = ssl._create_unverified_context())
 		payload = 'ItemName='+itemName+'&ItemPrice='+itemPrice+'&CoffeeOrderId='+orderId
 		headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
@@ -132,7 +134,7 @@ class MenuItem:
 		data = res.read()
 		print(data.decode("utf-8"))
 
-	def getMenuItems():
+	def getMenuItems(self):
 		conn = http.client.HTTPSConnection("localhost", 44378, context = ssl._create_unverified_context())
 		payload = ''
 		headers = {}
@@ -141,36 +143,36 @@ class MenuItem:
 		data = res.read()
 		return data.decode("utf-8")
 
-	def getMenuItem(id):
+	def getMenuItem(self,id):
 		conn = http.client.HTTPSConnection("localhost", 44378, context = ssl._create_unverified_context())
 		payload = ''
 		headers = {}
-		conn.request("GET", "/api/Menu/"+id, payload, headers)
+		conn.request("GET", "/api/Menu/"+str(id), payload, headers)
 		res = conn.getresponse()
 		data = res.read()
 		return data.decode("utf-8")
 
-	def AddMenuItem(id,itemName,itemPrice,orderId):
+	def UpdateMenuItem(self,menuId,itemName,itemPrice):
 		conn = http.client.HTTPSConnection("localhost", 44378,context = ssl._create_unverified_context())
-		payload = 'ItemName='+id+'&ItemName='+itemName+'&ItemPrice='+itemPrice+'&CoffeeOrderId='+orderId
+		payload = 'MenuId='+menuId+'&ItemName='+itemName+'&ItemPrice='+itemPrice
 		headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
 		conn.request("PUT", "/api/Menu", payload, headers)
 		res = conn.getresponse()
 		data = res.read()
 		print(data.decode("utf-8"))
 
-	def RemoveMenuItem(id):
+	def RemoveMenuItem(self,id):
 		conn = http.client.HTTPSConnection("localhost", 44378, context = ssl._create_unverified_context())
 		payload = ''
 		headers = {}
-		conn.request("DELETE", "/api/Menu/"+id, payload, headers)
+		conn.request("DELETE", "/api/Menu/"+str(id), payload, headers)
 		res = conn.getresponse()
 		data = res.read()
 		return data.decode("utf-8")
 
 class Addition:
 	#Addition Crud
-	def AddAdditionItem(itemName,itemPrice,orderId):
+	def AddAdditionItem(self,itemName,itemPrice,orderId):
 		conn = http.client.HTTPSConnection("localhost", 44378,context = ssl._create_unverified_context())
 		payload = 'Name='+itemName+'&Price='+itemPrice+'&CoffeeOrderId='+orderId
 		headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
@@ -179,7 +181,7 @@ class Addition:
 		data = res.read()
 		print(data.decode("utf-8"))
 
-	def getAdditions():
+	def getAdditions(self):
 		conn = http.client.HTTPSConnection("localhost", 44378, context = ssl._create_unverified_context())
 		payload = ''
 		headers = {}
@@ -188,29 +190,29 @@ class Addition:
 		data = res.read()
 		return data.decode("utf-8")
 
-	def getAddition(id):
+	def getAddition(self,id):
 		conn = http.client.HTTPSConnection("localhost", 44378, context = ssl._create_unverified_context())
 		payload = ''
 		headers = {}
-		conn.request("GET", "/api/Addition/"+id, payload, headers)
+		conn.request("GET", "/api/Addition/"+str(id), payload, headers)
 		res = conn.getresponse()
 		data = res.read()
 		return data.decode("utf-8")
 
-	def UpdateAdditionItem(id,itemName,itemPrice,orderId):
+	def UpdateAdditionItem(self,Addid,itemName,itemPrice):
 		conn = http.client.HTTPSConnection("localhost", 44378,context = ssl._create_unverified_context())
-		payload = 'AdditionId'+id+'&Name='+itemName+'&Price='+itemPrice+'&CoffeeOrderId='+orderId
+		payload = 'AdditionId'+Addid+'&Name='+itemName+'&Price='+itemPrice
 		headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
 		conn.request("PUT", "/api/Addition", payload, headers)
 		res = conn.getresponse()
 		data = res.read()
 		print(data.decode("utf-8"))
 
-	def RemoveAddition(id):
+	def RemoveAddition(self,id):
 		conn = http.client.HTTPSConnection("localhost", 44378, context = ssl._create_unverified_context())
 		payload = ''
 		headers = {}
-		conn.request("DELETE", "/api/Addition/"+id, payload, headers)
+		conn.request("DELETE", "/api/Addition/"+str(id), payload, headers)
 		res = conn.getresponse()
 		data = res.read()
 		return data.decode("utf-8")
@@ -220,7 +222,7 @@ class Customer:
 		self.tolken = getToken()
 
 	#Register
-	def AddRegister(userName,password,passConfirm):
+	def AddRegister(self,userName,password,passConfirm):
 		conn = http.client.HTTPSConnection("localhost", 44378,context = ssl._create_unverified_context())
 		payload = 'Email='+userName+'&Password='+password+'ConfirmPassword'+passConfirm
 		headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
@@ -230,7 +232,7 @@ class Customer:
 		print(data.decode("utf-8"))
 
 	#Login
-	def AddLogin(userName,password):
+	def AddLogin(self,userName,password):
 		conn = http.client.HTTPSConnection("localhost", 44378,context = ssl._create_unverified_context())
 		payload = 'grant_type=password&Email='+userName+'&Password='+password
 		headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
@@ -261,26 +263,26 @@ class Customer:
 	def getCustomer(self,id):
 		conn = http.client.HTTPSConnection("localhost", 44378, context = ssl._create_unverified_context())
 		payload = ''
-		headers = {"Authorization": tolken}
-		conn.request("GET", "/api/Customer/"+id, payload, headers)
+		headers = {"Authorization": self.tolken}
+		conn.request("GET", "/api/Customer/"+str(id), payload, headers)
 		res = conn.getresponse()
 		data = res.read()
 		return data.decode("utf-8")
 
-	def UpdateCustomer(self,id,firstName,lastName,paymentType):
+	def UpdateCustomer(self,Custid,firstName,lastName,paymentType):
 		conn = http.client.HTTPSConnection("localhost", 44378,context = ssl._create_unverified_context())
-		payload = 'CustomerId='+id+'&FirstName='+firstName+'&LastName='+lastName+'PaymentType'+paymentType
-		headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain","Authorization": tolken}
+		payload = 'CustomerId='+Custid+'&FirstName='+firstName+'&LastName='+lastName+'PaymentType'+paymentType
+		headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain","Authorization": self.tolken}
 		conn.request("PUT", "/api/Customer", payload, headers)
 		res = conn.getresponse()
 		data = res.read()
 		print(data.decode("utf-8"))
 
-	def RemoveCustomer(self,id,tolken):
+	def RemoveCustomer(self,id):
 		conn = http.client.HTTPSConnection("localhost", 44378, context = ssl._create_unverified_context())
 		payload = ''
-		headers = {"Authorization": tolken}
-		conn.request("DELETE", "/api/Customer/"+id, payload, headers)
+		headers = {"Authorization": self.tolken}
+		conn.request("DELETE", "/api/Customer/"+str(id), payload, headers)
 		res = conn.getresponse()
 		data = res.read()
 		return data.decode("utf-8")
@@ -333,24 +335,78 @@ class DisplayMenu:
 
 		if(crudVal == 1):
 			print("Add " + MainValue)
-			if(MainValue == "CoffeeShop"):
+			if( MainValue== "CoffeeShop"):
 				self.CrudWork.CoffeeShopPost()
 			elif(MainValue == "CoffeeOrder"):
-				self.CrudWork.CoffeeShopPost()
+				self.CrudWork.CoffeeOrderPost()
 			elif(MainValue == "MenuItem"):
 				self.CrudWork.MenuItemPost()
 			elif(MainValue == "Addition"):
 				self.CrudWork.AdditionItemPost()
+			elif(MainValue == "Customer"):
+				self.CrudWork.CustomerPost()
+			else:
+				print("Not a valid option")
 		elif(crudVal == 2):
 			print("Update " + MainValue)
+			if( MainValue== "CoffeeShop"):
+				self.CrudWork.CoffeeShopUpdate()
+			elif(MainValue == "CoffeeOrder"):
+				self.CrudWork.CoffeeOrderUpdate()
+			elif(MainValue == "MenuItem"):
+				self.CrudWork.MenuItemUpdate()
+			elif(MainValue == "Addition"):
+				self.CrudWork.AdditionItemUpdate()
+			elif(MainValue == "Customer"):
+				self.CrudWork.CustomerUpdate()
+			else:
+				print("Not a valid option")
 		elif(crudVal == 3):
 			print("Display " + MainValue)
+			if( MainValue== "CoffeeShop"):
+				self.CrudWork.CoffeeShopPost()
+			elif(MainValue == "CoffeeOrder"):
+				self.CrudWork.CoffeeOrderPost()
+			elif(MainValue == "MenuItem"):
+				self.CrudWork.MenuItemPost()
+			elif(MainValue == "Addition"):
+				self.CrudWork.AdditionItemPost()
+			elif(MainValue == "Customer"):
+				self.CrudWork.CustomerPost()
+			else:
+				print("Not a valid option")
 		elif(crudVal == 4):
 			print("Display By ID " + MainValue)
+			print("Add " + MainValue)
+			if( MainValue== "CoffeeShop"):
+				self.CrudWork.CoffeeShopPost()
+			elif(MainValue == "CoffeeOrder"):
+				self.CrudWork.CoffeeOrderPost()
+			elif(MainValue == "MenuItem"):
+				self.CrudWork.MenuItemPost()
+			elif(MainValue == "Addition"):
+				self.CrudWork.AdditionItemPost()
+			elif(MainValue == "Customer"):
+				self.CrudWork.CustomerPost()
+			else:
+				print("Not a valid option")
 		elif(crudVal == 5):
 			print("Delete " + MainValue)
+			print("Add " + MainValue)
+			if( MainValue== "CoffeeShop"):
+				self.CrudWork.CoffeeShopPost()
+			elif(MainValue == "CoffeeOrder"):
+				self.CrudWork.CoffeeOrderPost()
+			elif(MainValue == "MenuItem"):
+				self.CrudWork.MenuItemPost()
+			elif(MainValue == "Addition"):
+				self.CrudWork.AdditionItemPost()
+			elif(MainValue == "Customer"):
+				self.CrudWork.CustomerPost()
+			else:
+				print("Not a valid option")
 		else:
-			print("This is not a Selection. Try Again")
+			print("This is not a Selection")
 		
 		
 class CRUD:
@@ -362,6 +418,7 @@ class CRUD:
 		self.Cust = Customer()
 		self.CrudWork = CRUD()
 	
+	#Display
 	def DisplayAll(ListValues,Name,values):
 		#clearConsole()
 		print("Display All " + Name)
@@ -386,8 +443,8 @@ class CRUD:
 		
 		print("\n")
 		
+	#Posting
 	def CoffeeShopPost(self):
-		print("Adding a CoffeeShop")
 		Name = input("Enter Name for CoffeeShop: ")
 		Location = input("Enter Location CoffeeShop: ")
 		Number = input("Enter Phone Number for CoffeeShop: ")
@@ -396,22 +453,20 @@ class CRUD:
 		self.Shop.AddCoffeeshop(Name,Location,Number,Website)
 		
 	def CoffeeOrderPost(self):
-		CoffeeOrderList = CoffeeOrder.getCoffeeOrders().split(",")
+		CoffeeOrderList = self.Order.getCoffeeOrders().split(",")
 		self.DisplayAll(CoffeeOrderList,"CoffeeShops",5)
 
-		print("\nAdding a CoffeeOrder")
 		ShopId = input("Enter Id for the CoffeeShop: ")
 		Barista = input("Enter Barista Fulfilling this Order: ")
 		Country = input("Enter The Origin Coutry for the Beans: ")
 		
-		CoffeeOrder.AddCoffeeOrder(Country,Barista,ShopId)
+		self.Order.AddCoffeeOrder(Country,Barista,ShopId)
 
 	def MenuItemPost(self):
-		CoffeeOrderList = CoffeeOrder.getCoffeeOrders().split(",")
+		CoffeeOrderList = self.Order.getCoffeeOrders().split(",")
 		self.DisplayAll(CoffeeOrderList,"CoffeeOrders",2)
 
-		print("\nAdding a MenuItem")
-		OrderId = input("Enter Id for the CoffeeShop: ")
+		OrderId = input("Enter Id for the CoffeeOrder: ")
 		ItemName = input("Enter The Menu Item Name: ")
 		ItemPrice = input("Enter the Menu Item Price: ")
 		
@@ -421,12 +476,83 @@ class CRUD:
 		CoffeeOrderList = self.Order.getCoffeeOrders().split(",")
 		self.DisplayAll(CoffeeOrderList,"CoffeeOrders",2)
 
-		print("\nAdding a Addition to CoffeeOrder")
 		OrderId = input("Enter Id for the CoffeeShop: ")
 		ItemName = input("Enter The Addition Item Name: ")
 		ItemPrice = input("Enter the Addition Item Price: ")
 		
 		self.AddTo.AddAdditionItem(ItemName,ItemPrice,OrderId)
+
+	def CustomerPost(self):
+		CustomerList = self.Cust.getCustomers().split(",")
+		self.DisplayAll(CustomerList,"CoffeeOrders",2)
+
+		FirstName = input("Enter Id for the CoffeeShop: ")
+		LastName = input("Enter The Menu Item Name: ")
+		PaymentType = input("Enter the Menu Item Price: ")
+		
+		self.Cust.AddCustomer(FirstName,LastName,PaymentType)
+
+	#Updating
+	def CoffeeShopUpdate(self):
+
+
+		ShopId = input("Enter the Id for The CoffeeShop to Edit: ")
+		Name = input("Enter Name for CoffeeShop: ")
+		Location = input("Enter Location CoffeeShop: ")
+		Number = input("Enter Phone Number for CoffeeShop: ")
+		Website = input("Enter Website for CoffeeShop: ")
+		
+		self.Shop.UpdateCoffeeshop(ShopId,Name,Location,Number,Website)
+
+	def CoffeeOrderUpdate(self):
+		print("Updating a CoffeeOrder")
+		CoffeeOrderList = self.Order.getCoffeeOrders().split(",")
+		self.DisplayAll(CoffeeOrderList,"CoffeeShops",5)
+
+		print("\nAdding a CoffeeOrder")
+		OrderId = input("Enter Id for the CoffeeOrder: ")
+		Barista = input("Enter Barista Fulfilling this Order: ")
+		Country = input("Enter The Origin Coutry for the Beans: ")
+		
+		self.Order.UpdateCoffeeOrder(OrderId,Country,Barista)
+	
+	def MenuItemUpdate(self):
+		CoffeeOrderList = self.Order.getCoffeeOrders().split(",")
+		self.DisplayAll(CoffeeOrderList,"CoffeeOrders",2)
+
+		print("\nAdding a MenuItem")
+		OrderId = input("Enter Id for the CoffeeOrder: ")
+		ItemName = input("Enter The Menu Item Name: ")
+		ItemPrice = input("Enter the Menu Item Price: ")
+		
+		self.Menu.UpdateMenuItem(OrderId,ItemName,ItemPrice)
+
+	def AdditionItemUpdate(self):
+		CoffeeOrderList = self.Order.getCoffeeOrders().split(",")
+		self.DisplayAll(CoffeeOrderList,"CoffeeOrders",2)
+
+		print("\nUpdating an Addition to CoffeeOrder")
+		AddId = input("Enter Id for the Addition to Update: ")
+		ItemName = input("Enter The Addition Item Name: ")
+		ItemPrice = input("Enter the Addition Item Price: ")
+		
+		self.AddTo.UpdateAdditionItem(AddId,ItemName,ItemPrice)
+
+	def CustomerUpdate(self):
+		CustomerList = self.Cust.getCustomers().split(",")
+		self.DisplayAll(CustomerList,"CoffeeOrders",2)
+
+		print("\nUpdating Customer")
+		CustId = input("Enter Customer Id to Update: ")
+		FirstName = input("Enter First Name: ")
+		LastName = input("Enter Last Name: ")
+		PaymentType = input("Enter Payment Type: ")
+		
+		self.Cust.UpdateCustomer(CustId,FirstName,LastName,PaymentType)
+
+	#Delete
+	
+
 
 keepRunning = True
 	
@@ -436,8 +562,10 @@ token = getToken()
 	
 while(keepRunning):
 	
-	#displayMenu() #displays the men to select from different classes
+
+	menuDisplay = DisplayMenu() #displays the men to select from different classes
 	
+	menuDisplay.displayMenu()
 	#AdditionItemPost()
 
 	#cust = Customer()
