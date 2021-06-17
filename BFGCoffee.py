@@ -190,14 +190,14 @@ class Addition:
 		data = res.read()
 		return data.decode("utf-8")
 
-	def getAddition(self,id):
-		conn = http.client.HTTPSConnection("localhost", 44378, context = ssl._create_unverified_context())
-		payload = ''
-		headers = {}
-		conn.request("GET", "/api/Addition/"+str(id), payload, headers)
-		res = conn.getresponse()
-		data = res.read()
-		return data.decode("utf-8")
+	#def getAddition(self,id):
+	#	conn = http.client.HTTPSConnection("localhost", 44378, context = ssl._create_unverified_context())
+	#	payload = ''
+	#	headers = {}
+	#	conn.request("GET", "/api/Addition/"+str(id), payload, headers)
+	#	res = conn.getresponse()
+	#	data = res.read()
+	#	return data.decode("utf-8")
 
 	def UpdateAdditionItem(self,Addid,itemName,itemPrice):
 		conn = http.client.HTTPSConnection("localhost", 44378,context = ssl._create_unverified_context())
@@ -295,6 +295,7 @@ class DisplayMenu:
 		self.AddTo = Addition()
 		self.Cust = Customer()
 		self.CrudWork = CRUD()
+		self.token = getToken()
 
 	# this method is used to select which to do	
 	def displayMenu(self):
@@ -364,45 +365,89 @@ class DisplayMenu:
 		elif(crudVal == 3):
 			print("Display " + MainValue)
 			if( MainValue== "CoffeeShop"):
-				self.CrudWork.CoffeeShopPost()
+				CoffeeShopList = self.Shop.getCoffeeshops().split(",")
+				self.CrudWork.DisplayAll(CoffeeShopList,"CoffeeShops",5)
 			elif(MainValue == "CoffeeOrder"):
-				self.CrudWork.CoffeeOrderPost()
+				CoffeeOrderList = self.Order.getCoffeeOrder().split(",")
+				self.CrudWork.DisplayAll(CoffeeOrderList,"CoffeeOrder",2)
 			elif(MainValue == "MenuItem"):
-				self.CrudWork.MenuItemPost()
+				MenuItemList = self.Menu.getMenuItems().split(",")
+				self.CrudWork.DisplayAll(MenuItemList,"MenuItems",3)
 			elif(MainValue == "Addition"):
-				self.CrudWork.AdditionItemPost()
+				AdditionItemList = self.AddTo.getAdditions().split(",")
+				self.CrudWork.DisplayAll(AdditionItemList,"AdditionItems",3)
 			elif(MainValue == "Customer"):
-				self.CrudWork.CustomerPost()
+				CustomerList = self.Cust.getCustomers(self.token).split(",")
+				self.CrudWork.DisplayAll(CustomerList,"Customers",4)
 			else:
 				print("Not a valid option")
 		elif(crudVal == 4):
 			print("Display By ID " + MainValue)
-			print("Add " + MainValue)
 			if( MainValue== "CoffeeShop"):
-				self.CrudWork.CoffeeShopPost()
+				CoffeeShopList = self.Shop.getCoffeeshops().split(",")
+				self.CrudWork.DisplayAll(CoffeeShopList,"CoffeeShops",5)
+				
+				getId = input("Enter the Id # of the CoffeeShop To Display: ")
+				CoffeeShopList = self.Shop.getCoffeeShop(getId).split(",")
+				self.CrudWork.DisplayById(CoffeeShopList,"CoffeeShop")
+
 			elif(MainValue == "CoffeeOrder"):
-				self.CrudWork.CoffeeOrderPost()
+				CoffeeOrderList = self.Order.getCoffeeOrder().split(",")
+				self.CrudWork.DisplayAll(CoffeeOrderList,"CoffeeOrder",2)
+
+				getId = input("Enter the Id # of the CoffeeOrder To Display: ")
+				CoffeeOrderList = self.Order.getCoffeeOrder(getId).split(",")
+				self.CrudWork.DisplayById(CoffeeOrderList,"CoffeeOrder")
+
 			elif(MainValue == "MenuItem"):
-				self.CrudWork.MenuItemPost()
+				MenuItemList = self.Menu.getMenuItems().split(",")
+				self.CrudWork.DisplayAll(MenuItemList,"MenuItems",3)
+
+				getId = input("Enter the Id # of the Menu To Display: ")
+				MenuItemList= self.Menu.getMenuItem(getId).split(",")
+				self.CrudWork.DisplayById(MenuItemList,"MenuItem")
+
 			elif(MainValue == "Addition"):
-				self.CrudWork.AdditionItemPost()
+				AdditionItemList = self.AddTo.getAdditions().split(",")
+				self.CrudWork.DisplayAll(AdditionItemList,"AdditionItems",3)
+
 			elif(MainValue == "Customer"):
-				self.CrudWork.CustomerPost()
+				CustomerList = self.Cust.getCustomers(self.token).split(",")
+				self.CrudWork.DisplayAll(CustomerList,"Customers",4)
+
+				getId = input("Enter the Id # of the Customer To Display: ")
+				CustomerList= self.Cust.getCustomer(getId).split(",")
+				self.CrudWork.DisplayById(CustomerList,"Customer")
 			else:
 				print("Not a valid option")
 		elif(crudVal == 5):
 			print("Delete " + MainValue)
 			print("Add " + MainValue)
 			if( MainValue== "CoffeeShop"):
-				self.CrudWork.CoffeeShopPost()
+				CoffeeShopList = self.Shop.getCoffeeshops().split(",")
+				self.CrudWork.DisplayAll(CoffeeShopList,"CoffeeShops",5)
+
+				self.CrudWork.CoffeeShopRemove()
 			elif(MainValue == "CoffeeOrder"):
-				self.CrudWork.CoffeeOrderPost()
+				CoffeeOrderList = self.Order.getCoffeeOrder().split(",")
+				self.CrudWork.DisplayAll(CoffeeOrderList,"CoffeeOrder",2)
+
+				self.CrudWork.CoffeeOrderRemove()
 			elif(MainValue == "MenuItem"):
-				self.CrudWork.MenuItemPost()
+				MenuItemList = self.Menu.getMenuItems().split(",")
+				self.CrudWork.DisplayAll(MenuItemList,"MenuItems",3)
+
+				self.CrudWork.MenuItemRemove()
 			elif(MainValue == "Addition"):
-				self.CrudWork.AdditionItemPost()
+				AdditionItemList = self.AddTo.getAdditions().split(",")
+				self.CrudWork.DisplayAll(AdditionItemList,"AdditionItems",3)
+
+				self.CrudWork.AdditionRemove()
 			elif(MainValue == "Customer"):
-				self.CrudWork.CustomerPost()
+				CustomerList = self.Cust.getCustomers(self.token).split(",")
+				self.CrudWork.DisplayAll(CustomerList,"Customers",4)
+
+				self.CrudWork.CustomerRemove()
 			else:
 				print("Not a valid option")
 		else:
@@ -419,7 +464,7 @@ class CRUD:
 		self.CrudWork = CRUD()
 	
 	#Display
-	def DisplayAll(ListValues,Name,values):
+	def DisplayAll(self,ListValues,Name,values):
 		#clearConsole()
 		print("Display All " + Name)
 		print("========================")
@@ -432,7 +477,7 @@ class CRUD:
 		
 		print("\n")
 		
-	def DisplayById(ListValues,Name):
+	def DisplayById(self,ListValues,Name):
 		#clearConsole()
 		print("Display All " + Name)
 		print("========================")
@@ -493,8 +538,9 @@ class CRUD:
 		self.Cust.AddCustomer(FirstName,LastName,PaymentType)
 
 	#Updating
-	def CoffeeShopUpdate(self):
-
+	def CoffeeShopUpdate(self):	
+		CoffeeShopList = self.Shop.getCoffeeshops().split(",")
+		self.DisplayAll(CoffeeShopList,"CoffeeShops",5)
 
 		ShopId = input("Enter the Id for The CoffeeShop to Edit: ")
 		Name = input("Enter Name for CoffeeShop: ")
@@ -505,7 +551,6 @@ class CRUD:
 		self.Shop.UpdateCoffeeshop(ShopId,Name,Location,Number,Website)
 
 	def CoffeeOrderUpdate(self):
-		print("Updating a CoffeeOrder")
 		CoffeeOrderList = self.Order.getCoffeeOrders().split(",")
 		self.DisplayAll(CoffeeOrderList,"CoffeeShops",5)
 
@@ -520,18 +565,16 @@ class CRUD:
 		CoffeeOrderList = self.Order.getCoffeeOrders().split(",")
 		self.DisplayAll(CoffeeOrderList,"CoffeeOrders",2)
 
-		print("\nAdding a MenuItem")
-		OrderId = input("Enter Id for the CoffeeOrder: ")
+		MenuId = input("Enter Id for the MenuItem: ")
 		ItemName = input("Enter The Menu Item Name: ")
 		ItemPrice = input("Enter the Menu Item Price: ")
 		
-		self.Menu.UpdateMenuItem(OrderId,ItemName,ItemPrice)
+		self.Menu.UpdateMenuItem(MenuId,ItemName,ItemPrice)
 
 	def AdditionItemUpdate(self):
 		CoffeeOrderList = self.Order.getCoffeeOrders().split(",")
 		self.DisplayAll(CoffeeOrderList,"CoffeeOrders",2)
 
-		print("\nUpdating an Addition to CoffeeOrder")
 		AddId = input("Enter Id for the Addition to Update: ")
 		ItemName = input("Enter The Addition Item Name: ")
 		ItemPrice = input("Enter the Addition Item Price: ")
@@ -542,7 +585,6 @@ class CRUD:
 		CustomerList = self.Cust.getCustomers().split(",")
 		self.DisplayAll(CustomerList,"CoffeeOrders",2)
 
-		print("\nUpdating Customer")
 		CustId = input("Enter Customer Id to Update: ")
 		FirstName = input("Enter First Name: ")
 		LastName = input("Enter Last Name: ")
@@ -551,9 +593,27 @@ class CRUD:
 		self.Cust.UpdateCustomer(CustId,FirstName,LastName,PaymentType)
 
 	#Delete
+	def CoffeeShopRemove(self):
+		ShopId = input("Enter the CoffeeShop Id to Remove: ")
+		self.Shop.RemoveCoffeeShop(ShopId)
+
+	def CoffeeOrderRemove(self):
+		ShopId = input("Enter the CoffeeOrder Id to Remove: ")
+		self.Order.RemoveCoffeeOrder(ShopId)
+
+	def CustomerRemove(self):
+		ShopId = input("Enter the Customer Id to Remove: ")
+		self.Cust.RemoveCoffeeOrder(ShopId)
 	
+	def MenuItemRemove(self):
+		ShopId = input("Enter the MenuItem Id to Remove: ")
+		self.Menu.RemoveCoffeeOrder(ShopId)
 
+	def AdditionRemove(self):
+		AddId = input("Enter the Additon Id to Remove: ")
+		self.AddTo.RemoveAddition(AddId)
 
+	
 keepRunning = True
 	
 asciiDoom()
@@ -565,6 +625,7 @@ while(keepRunning):
 
 	menuDisplay = DisplayMenu() #displays the men to select from different classes
 	
+	clearConsole()
 	menuDisplay.displayMenu()
 	#AdditionItemPost()
 
@@ -577,9 +638,8 @@ while(keepRunning):
 	#newToken = cust.Login(userName,password)
 	#print(newToken)
 
-	#getCoffeeshops()
 	#CoffeeShopList = getCoffeeshops().split(",")
-	#CoffeeOrderList = CoffeeOrder.getCoffeeOrder(2).split(",")
+	#CoffeeOrderList = CoffeeOrder.getCoffeeOrder().split(",")
 	#CustomerList = getCustomers(token).split(",")
 	#MenuItemList = getMenuItems().split(",")
 	#AdditionList = getAdditions().split(",")
