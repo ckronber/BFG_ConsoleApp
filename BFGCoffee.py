@@ -15,29 +15,17 @@ def clearConsole():
 
 def asciiDoom():
 	print("""
-		____________ _____        _____        __  __                 _____ _                 
-		| ___ \  ___|  __ \      /  __ \      / _|/ _|               /  ___| |                
-		| |_/ / |_  | |  \/      | /  \/ ___ | |_| |_ ___  ___       \ `--.| |__   ___  _ __  
-		| ___ \  _| | | __       | |    / _ \|  _|  _/ _ \/ _ \       `--. \ '_ \ / _ \| '_ \ 
-		| |_/ / |   | |_\ \      | \__/\ (_) | | | ||  __/  __/      /\__/ / | | | (_) | |_) |
-		\____/\_|    \____/       \____/\___/|_| |_| \___|\___|      \____/|_| |_|\___/| .__/ 
-																					| |    
-																					|_|    
-
-																																								
-				***********,,,***/**,.,                                              
-				,,,,///,,,(((***((/*******/**////*,,,,,,,.,,,/////////////////////***   
-			((..................,* .   *(((((*//***/*((((((/***//(/////(/****%*****  
-		(((((((((((((((((((((/(/(%%((/(/((((((//////////(/*,/,,*******************,  
-		/*//(/(//////////(///////###/*,,*,*,,/*******,,,,,,,,,,,    .,,,..,,,,**,,   
-			*/.    ..  .....   .  ,,... ,..,,,,,,,,,*...,..,.,   ,.,,  , *,,******,,*   
-			***,,,,,,,,,,,,,,,,,,,,****,,,,,,,,,,   ,.*..,..     .,,.    ,,***,,*.*    
-					..................., ,....   .....,*,.,      ,,,,      ,,,,,**     
-				. ..... ,.... ........,,,,,.,.,,,,,,,,,.,,/,,**....,,...*                  
-			..,,.....    . ...........,,,,,,,,.,.,/,,,,,/.,,,,.,                   
-					,,,,,...       ........,*, *....                                    
-					...,,,,.............,                                             
-									, .,.      """)
+				
+		____________ _____      _____        __  __              _____ _                 
+		| ___ \  ___|  __ \    /  __ \      / _|/ _|            /  ___| |                
+		| |_/ / |_  | |  \/    | /  \/ ___ | |_| |_ ___  ___    \ `--.| |__   ___  _ __  
+		| ___ \  _| | | __     | |    / _ \|  _|  _/ _ \/ _ \    `--. \ '_ \ / _ \| '_ \ 
+		| |_/ / |   | |_\ \    | \__/\ (_) | | | ||  __/  __/   /\__/ / | | | (_) | |_) |
+		\____/\_|    \____/     \____/\___/|_| |_| \___|\___|   \____/|_| |_|\___/| .__/ 
+											  | |    
+											  |_|    
+			
+		""")
 
 class CoffeeShop:
 	#CoffeeShop Crud
@@ -294,9 +282,17 @@ class Customer:
 		data = res.read()
 		return data.decode("utf-8")
 	
-class Menu:
+class DisplayMenu:
+	def __init__(self):
+		self.Shop = CoffeeShop()
+		self.Order = CoffeeOrder()
+		self.Menu = MenuItem()
+		self.AddTo = Addition()
+		self.Cust = Customer()
+		self.CrudWork = CRUD()
+
 	# this method is used to select which to do	
-	def displayMenu():
+	def displayMenu(self):
 		clearConsole()
 		print("BFG CoffeeShopMenu")
 		print("===================")
@@ -308,38 +304,44 @@ class Menu:
 		
 		menuValue = input("\nMake a selection: ")
 		
-		'''
-		switch (menuValue):
-		case 1:
-			displayCRUD("CoffeeShop")
-			break
-		case 2: 
-			displayCRUD("CoffeeOrder")
-			break
-		case 3:
-			displayCRUD("Customer")
-			break
-		case 4:
-			displayCRUD("MenuItems")
-			break
-		case 5:
-			displayCRUD("AdditionItems")
-			break
-		default:
-			print("Not a value from 1 to 5")
-			break
-	'''
+		if(menuValue == 1):
+			self.displayCRUD("CoffeeShop")
+		elif(menuValue == 2):
+			self.displayCRUD("CoffeeOrder")
+		elif(menuValue == 3):
+			self.displayCRUD("Customer")
+		elif(menuValue == 4):
+			self.displayCRUD("MenuItem")
+		elif(menuValue == 5):
+			self.displayCRUD("Addition")
+		else:
+			print("This is not a Selection. Try Again")
 
-	def displayCRUD(MainValue):
+	def displayCRUD(self,MainValue):
 		print("Select an Option for " + MainValue)
 		print("===================")
 		print("1. Add")
 		print("2. Update")
 		print("3. Display")
+		print("3. Display By Id")
 		print("4. Delete")
-		
-		#crudVal = input("\n Select an Option: ")
 
+		crudVal = input("\n Select an Option: ")
+
+		if(crudVal == 1):
+			print("Add " + MainValue)
+		elif(crudVal == 2):
+			print("Update " + MainValue)
+		elif(crudVal == 3):
+			print("Display " + MainValue)
+		elif(crudVal == 4):
+			print("Display By ID " + MainValue)
+		elif(crudVal == 5):
+			print("Delete " + MainValue)
+		else:
+			print("This is not a Selection. Try Again")
+		
+		
 class CRUD:
 	
 	def DisplayAll(ListValues,Name,values):
@@ -420,10 +422,14 @@ while(keepRunning):
 	
 	#AdditionItemPost()
 
+	cust = Customer()
 
-	print("Enter A Username and Password")
-	userName = input("Enter an Email for Username:")
-	password = input("Enter a password to Login")
+	print("Login")
+	userName = input("Enter an Email for Username: ")
+	password = input("Enter a password: ")
+
+	newToken = cust.Login(userName,password)
+	print(newToken)
 
 	#getCoffeeshops()
 	#CoffeeShopList = getCoffeeshops().split(",")
