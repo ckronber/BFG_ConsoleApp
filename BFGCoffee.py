@@ -4,7 +4,7 @@ import http.client
 import ssl
 
 def getToken():
-	token = "bearer UMfe73d_n89Ps_rOx-QzZYe9WI2gl1lGd_ty1npOmPEtvfqHUvkZu3S1n1IwMWRPvlIUnKI_255-YM-ANZ19OnifFF4b4wDcTYJy3QlFOZAFgTPc6Rk1nbj9JeQkBHXWfbWl1YFPPikBn_-6W8n9HFd_BIao8rK8ltpPONvfF3lR93Z8FTWGRB8yc_CgmZ89UKnWktqVsZU-zn7jt5qypPn4YVwi5KPGl0s7AQnv2dcCciSy-WV_9P1UadG0hC40B1oW0rwqBrFwaLWecyuqFxVy4LvbKm-6xs8sIYWs1dy9zinOLTkKrSMz3U4OtuVTNdkLJ56jCVdShv3SSytcUwpFSxN1dYcAYWcPPUbObPz5WoQnAwqBn1sGZcx6A21zGr-oHxwVQw0n7rzkW-dJBE3xY3FXa0Z1giuIxs5NGzYxnYl67uo4Em9D2K51kUohgNeVFR8TxIkLRjQNvV0pG2qvMF53tqSpNKlnTgXXv0g"
+	token = "bearer yF_QYzobJCQX-ueCSN7zsva3EdgTr9iZU6zeZLLSbwkgIVKBI2vq_LunK8EETJB6XN7yBG1nqu2dhGOIzLJIklCNWU9KWBT4Dvk7dUNshFkaCnK_U1Ox64NaljOVCPd6D1N1mQQ0G-4Qx__vUf2S7WR7BPypRssKtz6h0pUcEL3TR4LtFG5iRIisLtVtfKAACe4ZCldEZ7XE9SCF4r8grEgVwTeT26sa8-RqZgcOcHj8xAomnUqxYtNWwayJRNWh4jJLDiBOQZ7vLEkRDftjBbf-cJhjzcPBYCamUSMVN-aykHgkBo0a-pv50xb_cYsznObhMsRrLalwvkp5obT3i4btuQYy2ugDCRkKV3NrZdP8nJf5G4r_rHPxVaMyfsrvzYqmvnQ6itTiR_6OcTrIn_nzjhAavcmtugJz_nwTSrn0_1mnk8yqbqsZ03YB16jsHtCnHtKg9h_v_9K82_ILO61zblzgZtZOg0OAfAIcALVlHTxFenX0GWyzNJIlHTTF"
 	return token
 	
 def clearConsole():
@@ -216,8 +216,11 @@ class Addition:
 		return data.decode("utf-8")
 	
 class Customer:
+	def __init__(self):
+		self.tolken = getToken()
+
 	#Register
-	def Register(userName,password,passConfirm):
+	def AddRegister(userName,password,passConfirm):
 		conn = http.client.HTTPSConnection("localhost", 44378,context = ssl._create_unverified_context())
 		payload = 'Email='+userName+'&Password='+password+'ConfirmPassword'+passConfirm
 		headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
@@ -227,35 +230,35 @@ class Customer:
 		print(data.decode("utf-8"))
 
 	#Login
-	def Login(userName,password):
+	def AddLogin(userName,password):
 		conn = http.client.HTTPSConnection("localhost", 44378,context = ssl._create_unverified_context())
 		payload = 'grant_type=password&Email='+userName+'&Password='+password
 		headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
 		conn.request("GET", "/token", payload, headers)
 		res = conn.getresponse()
 		data = res.read()
-		return data.decode("utf-8")
+		print(data.decode("utf-8"))
 
 	#Customeer Crud
-	def AddCustomer(firstName,lastName,paymentType,orderId,tolken):
+	def AddCustomer(self,firstName,lastName,paymentType,orderId):
 		conn = http.client.HTTPSConnection("localhost", 44378,context = ssl._create_unverified_context())
 		payload = 'FirstName='+firstName+'&LastName='+lastName+'PaymentType'+paymentType+'&CoffeeOrderId='+orderId
-		headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain","Authorization": tolken}
+		headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain","Authorization": self.tolken}
 		conn.request("POST", "/api/Customer", payload, headers)
 		res = conn.getresponse()
 		data = res.read()
 		print(data.decode("utf-8"))
 		
-	def getCustomers(tolken):
+	def getCustomers(self):
 		conn = http.client.HTTPSConnection("localhost", 44378, context = ssl._create_unverified_context())
 		payload = ''
-		headers = {"Authorization": tolken}
+		headers = {"Authorization": self.tolken}
 		conn.request("GET", "/api/Customer", payload, headers)
 		res = conn.getresponse()
 		data = res.read()
 		return data.decode("utf-8")
 
-	def getCustomer(tolken,id):
+	def getCustomer(self,id):
 		conn = http.client.HTTPSConnection("localhost", 44378, context = ssl._create_unverified_context())
 		payload = ''
 		headers = {"Authorization": tolken}
@@ -264,7 +267,7 @@ class Customer:
 		data = res.read()
 		return data.decode("utf-8")
 
-	def UpdateCustomer(id,firstName,lastName,paymentType,tolken):
+	def UpdateCustomer(self,id,firstName,lastName,paymentType):
 		conn = http.client.HTTPSConnection("localhost", 44378,context = ssl._create_unverified_context())
 		payload = 'CustomerId='+id+'&FirstName='+firstName+'&LastName='+lastName+'PaymentType'+paymentType
 		headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain","Authorization": tolken}
@@ -273,7 +276,7 @@ class Customer:
 		data = res.read()
 		print(data.decode("utf-8"))
 
-	def RemoveCustomer(id,tolken):
+	def RemoveCustomer(self,id,tolken):
 		conn = http.client.HTTPSConnection("localhost", 44378, context = ssl._create_unverified_context())
 		payload = ''
 		headers = {"Authorization": tolken}
@@ -330,6 +333,14 @@ class DisplayMenu:
 
 		if(crudVal == 1):
 			print("Add " + MainValue)
+			if(MainValue == "CoffeeShop"):
+				self.CrudWork.CoffeeShopPost()
+			elif(MainValue == "CoffeeOrder"):
+				self.CrudWork.CoffeeShopPost()
+			elif(MainValue == "MenuItem"):
+				self.CrudWork.MenuItemPost()
+			elif(MainValue == "Addition"):
+				self.CrudWork.AdditionItemPost()
 		elif(crudVal == 2):
 			print("Update " + MainValue)
 		elif(crudVal == 3):
@@ -343,6 +354,13 @@ class DisplayMenu:
 		
 		
 class CRUD:
+	def __init__(self):
+		self.Shop = CoffeeShop()
+		self.Order = CoffeeOrder()
+		self.Menu = MenuItem()
+		self.AddTo = Addition()
+		self.Cust = Customer()
+		self.CrudWork = CRUD()
 	
 	def DisplayAll(ListValues,Name,values):
 		#clearConsole()
@@ -368,14 +386,14 @@ class CRUD:
 		
 		print("\n")
 		
-	def CoffeeShopPost():
+	def CoffeeShopPost(self):
 		print("Adding a CoffeeShop")
 		Name = input("Enter Name for CoffeeShop: ")
 		Location = input("Enter Location CoffeeShop: ")
 		Number = input("Enter Phone Number for CoffeeShop: ")
 		Website = input("Enter Website for CoffeeShop: ")
 		
-		CoffeeShop.AddCoffeeshop(Name,Location,Number,Website)
+		self.Shop.AddCoffeeshop(Name,Location,Number,Website)
 		
 	def CoffeeOrderPost(self):
 		CoffeeOrderList = CoffeeOrder.getCoffeeOrders().split(",")
@@ -397,10 +415,10 @@ class CRUD:
 		ItemName = input("Enter The Menu Item Name: ")
 		ItemPrice = input("Enter the Menu Item Price: ")
 		
-		Menu.AddMenuItem(ItemName,ItemPrice,OrderId)
+		self.Menu.AddMenuItem(ItemName,ItemPrice,OrderId)
 
 	def AdditionItemPost(self):
-		CoffeeOrderList = CoffeeOrder.getCoffeeOrders().split(",")
+		CoffeeOrderList = self.Order.getCoffeeOrders().split(",")
 		self.DisplayAll(CoffeeOrderList,"CoffeeOrders",2)
 
 		print("\nAdding a Addition to CoffeeOrder")
@@ -408,7 +426,7 @@ class CRUD:
 		ItemName = input("Enter The Addition Item Name: ")
 		ItemPrice = input("Enter the Addition Item Price: ")
 		
-		Addition.AddAdditionItem(ItemName,ItemPrice,OrderId)
+		self.AddTo.AddAdditionItem(ItemName,ItemPrice,OrderId)
 
 keepRunning = True
 	
@@ -422,14 +440,14 @@ while(keepRunning):
 	
 	#AdditionItemPost()
 
-	cust = Customer()
+	#cust = Customer()
 
-	print("Login")
-	userName = input("Enter an Email for Username: ")
-	password = input("Enter a password: ")
+	#print("Login")
+	#userName = input("Enter an Email for Username: ")
+	#password = input("Enter a password: ")
 
-	newToken = cust.Login(userName,password)
-	print(newToken)
+	#newToken = cust.Login(userName,password)
+	#print(newToken)
 
 	#getCoffeeshops()
 	#CoffeeShopList = getCoffeeshops().split(",")
