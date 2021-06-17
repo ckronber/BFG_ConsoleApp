@@ -461,7 +461,6 @@ class CRUD:
 		self.Menu = MenuItem()
 		self.AddTo = Addition()
 		self.Cust = Customer()
-		self.CrudWork = CRUD()
 	
 	#Display
 	def DisplayAll(self,ListValues,Name,values):
