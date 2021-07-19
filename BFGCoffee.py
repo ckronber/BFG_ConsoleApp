@@ -10,8 +10,6 @@ def getToken():
 	
 def clearConsole():
     command = 'cls'
-    if os.name in ('nt', 'dos'):  # If Machine is running on Windows, use cls
-        command = 'cls'
     os.system(command)
 
 def asciiDoom():
